@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tiket</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    .navbar 
+    {
+      background-color: #ffffff66;
+      padding: 15px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: flex-start;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      font-weight: bold;
+    }
+    .navbar a 
+    {
+      text-decoration: none;
+      color: black;
+    }
+    .navbar a:hover 
+    {
+      color: #007bff;
+    }
+    #total-navbar
+    {
+      margin-left: auto;
+      font-weight: bold;
+    }
+
+    body {
+      background-color: #3fc6ff;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('beranda.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    
+    }
+    .produk-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .produk {
+      border: 1px solid #a6f5fa;
+      padding: 10px;
+      background: #f1f6f9;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .produk img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    .btn-custom {
+      background-color: #1691f7;
+      color: white;
+    }
+    .nav-link.active {
+      color: black !important;
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark background-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#">Penyeberangan Sungai Sumpit</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nabarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="beranda.html">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link" href="E-commerce.html">Tiket</a></li>
+          <li class="nav-item"><a class="nav-link" href="E-commerce2.html">Keranjang</a></li>
+ 
+        </ul>
+      </div>
+    </div>
+  </nav>
+      <div class="container">
+    <h2 class="text-center my-4">Selamat Datang di Penyebrangan Sungai Sumpit</h2>
+    <p class="text-center">Penyeberangan Sungai Sumpit adalah layanan penyeberangan yang menghubungkan dua sisi Sungai Sumpit, yaitu di daerah Sumpit dan Ceremai.</p>
+
+    <h4 id="produk">Jenis Tiket :</h4>
+    <div class="produk-container">
+      <div class="produk">
+        <h5>Orang Tanpa Kendaraan </h5>
+        <img src="org tnpa kndraan.jpg" alt="Orang Tanpa Kendaraan">
+        <p>Rp 2.000</p>
+        <button class="btn btn-custom w-100" onclick="tambahKeranjang('orang tanpa kendaraan', 2000)">Tambah ke Keranjang</button>
+      </div>
+      <div class="produk">
+        <h5>Kendaraan Roda Dua + Orang</h5>
+        <img src="kndraan roda dua + org.jpg" alt="Kendaraan Roda Dua + Orang">
+        <p>Rp 10.000</p>
+        <button class="btn btn-custom w-100" onclick="tambahKeranjang('kendaraan roda dua + orang', 10000)">Tambah ke Keranjang</button>
+      </div>
+      <div class="produk">
+        <h5>Mobil Pribadi + Orang</h5>
+        <img src="mobil pribadi + org.jpg" alt="Mobil Pribadi + Orang">
+        <p>Rp 20.000</p>
+        <button class="btn btn-custom w-100" onclick="tambahKeranjang('mobil pribadi + orang', 20000)">Tambah ke Keranjang</button>
+      </div>
+      <div class="produk">
+        <h5>Kendaraan Bermuatan</h5>
+        <img src="kndraan brmuatan.jpg" alt="Kendaraan Bermuatan">
+        <p>Rp 40.000</p>
+        <button class="btn btn-custom w-100" onclick="tambahKeranjang('kendaraan bermuatan',40000)">Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="E-commerce2.html" class="btn btn-primary">Lihat Keranjang</a>
+    </div>
+  </div>
+
+  <script>
+    function tambahKeranjang(nama, harga) {
+      let keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+      let item = keranjang.find(i => i.nama === nama);
+      if (item) item.jumlah += 1;
+      else keranjang.push({ nama, harga, jumlah: 1 });
+      localStorage.setItem('keranjang', JSON.stringify(keranjang));
+      alert(nama + ' ditambahkan ke keranjang.');
+      updateTotalNavbar();
+    }
+    function updateTotalNavbar() {
+      let keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+      let total = keranjang.reduce((sum, item) => sum + (item.harga * item.jumlah), 0);
+      const totalSpan = document.getElementById('navbar-total');
+      if (totalSpan) {
+        totalSpan.textContent = 'Rp ' + total.toLocaleString();
+      }
+    }
+
+    window.onload = updateTotalNavbar;
+  </script>
+  <footer class="background-dark text-white text-center py-4 mt-5">
+    <p>&copy; 2025 Penyebrangan Sungai Sumpit.
+      Seluruh hak cipta dilindungi.</p>
+      <p>Kontak: +62 831 5925 6626 | Email: info@sungaisumpit.com</p>
+  </footer>
+</body>
+</html>

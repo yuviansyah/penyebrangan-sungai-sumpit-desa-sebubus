@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pembayaran</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #fff8dc;
+      font-family: 'Segoe UI', sans-serif;
+
+         background-image: url('beranda.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    
+    }
+    .payment-container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <h5 id="total-bayar" class="text-end mb-3">Total yang harus dibayar: Rp 0</h5>
+    <h3>Form Pembayaran</h3>
+    <form onsubmit="return prosesPembayaran()">
+      <div class="mb-3">
+        <label for="nama" class="form-label">Nama Lengkap</label>
+        <input type="text" id="nama" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="metode" class="form-label">Metode Pembayaran</label>
+        <select id="metode" class="form-select" required>
+          <option value="">-- Pilih --</option>
+          <option value="Transfer Bank">Transfer Bank</option>
+          <option value="E-Wallet">E-Wallet (OVO, Dana, Gopay)</option>
+          <option value="COD">Bayar di Tempat (COD)</option>
+          <option value="Kartu Kredit">Kartu Kredit</option>
+        </select>
+      </div>
+     <button type="submit" class="btn btn-warning w-100 mb-2">Proses Pembayaran</button>
+<button type="button" onclick="history.back()" class="btn btn-secondary w-100">Kembali</button>
+
+  </form>
+  </div>
+
+  <script>
+    function prosesPembayaran() {
+      const nama = document.getElementById('nama').value;
+      const metode = document.getElementById('metode').value;
+      if (!nama || !metode) {
+        alert("Mohon lengkapi data pembayaran.");
+        return false;
+      }
+      alert(`Terima kasih, ${nama}! Pembayaran dengan metode ${metode} telah berhasil.`);
+      localStorage.removeItem('keranjang');
+      return false;
+    }
+    window.onload = function () {
+      const keranjang = JSON.parse(localStorage.getItem('keranjang')) || [];
+      let total = keranjang.reduce((sum, item) => sum + (item.harga * item.jumlah), 0);
+      document.getElementById('total-bayar').textContent = 'Total yang harus dibayar: Rp ' + total.toLocaleString();
+    };
+
+    
+  </script>
+</body>
+</html>
